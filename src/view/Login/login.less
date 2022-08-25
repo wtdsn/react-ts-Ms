@@ -1,0 +1,91 @@
+.login_page {
+  width: 100%;
+  height: 100%;
+
+  .dots_bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgb(31, 36, 50);
+  }
+
+  .form_box {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    transform-style: preserve-3d;
+
+    transition: all 0.2s linear;
+
+    .regitser {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+  }
+
+  .register_form {
+    transform: rotateY(180deg);
+
+    .regitser {
+      opacity: 1;
+      min-width: 300px;
+      height: fit-content;
+    }
+
+    .login {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+  }
+
+
+  .title {
+    .svg_title {
+      width: 100%;
+      height: 50px;
+      margin-bottom: 20px;
+    }
+
+    .text {
+      transform: translate(50%, 25px);
+      font-size: 26px;
+      font-weight: bold;
+      fill: rgb(208, 221, 227);
+
+      stroke-width: 1px;
+      stroke: #108afc;
+      stroke-dashoffset: 150;
+      stroke-dasharray: 150;
+
+      text-anchor: middle;
+    }
+
+  }
+
+
+  .item {
+    position: absolute;
+
+    padding: 20px 30px;
+    min-width: 300px;
+    height: fit-content;
+
+    border-radius: 10px;
+    background-color: #fff;
+  }
+
+  .login {
+    transform: translate(-50%, -50%) translateZ(1px);
+  }
+
+  .regitser {
+    transform: translate(-50%, -50%) translateZ(-1px) rotateY(180deg);
+    transform-origin: center center;
+  }
+}
