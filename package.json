@@ -43,5 +43,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "craco-plugin-style-resources-loader": "^0.0.3"
   }
 }

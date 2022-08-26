@@ -1,8 +1,7 @@
-import User from '@/view/user/index'
-import Test from '@/view/test/index'
+import { lazy } from 'react'
+
 import Layout from '@/Layout/index'
-import Login from '@/view/Login/index'
-import NotFound from '@/view/NotFound'
+
 
 import { routeInter } from './routeInters'
 
@@ -24,21 +23,25 @@ const routes: routeInter[] = [
     children: [
       {
         path: 'test',
-        component: Test
+        component: lazy(() => import('@/view/test/index'))
       }, {
         path: 'user',
-        component: User
+        component: lazy(() => import('@/view/user/index'))
       }
     ]
   },
   {
     path: '/login',
-    component: Login
+    component: lazy(() => import('@/view/Login/index'))
   }, {
     path: '*',
-    component: NotFound
+    component: lazy(() => import('@/view/NotFound/index'))
   }
 ]
 
+
+const asyncRoutes: routeInter[] = [
+
+]
 
 export default routes

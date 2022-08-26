@@ -1,0 +1,96 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  font-size: 14px;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  color: #666;
+  text-decoration: none;
+}
+
+input,
+textarea {
+  outline: none;
+  border: none;
+  resize: none;
+}
+
+img {
+  vertical-align: middle;
+}
+
+/* 变量 */
+
+@themeColor: #1890ff;
+
+// 竖直居中 ， 默认 flex-direaction :row
+.vertiCenter {
+  display: flex;
+  align-items: center;
+}
+
+// 水平居中
+.horiCenter {
+  display: flex;
+  justify-content: center;
+
+}
+
+.allCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 浮动 */
+.clearfix {
+  zoom: 1;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    visibility: hidden;
+    clear: both;
+  }
+}
+
+.f_left {
+  float: left;
+}
+
+.f_right {
+  float: right;
+}
+
+/* 单行溢出 */
+.oneline {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 多行溢出 */
+.twoline(@line) {
+  display: -webkit-box;
+  -webkit-line-clamp: @line;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

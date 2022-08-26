@@ -1,11 +1,22 @@
 const CracoLessPlugin = require("craco-less");
-const {resolve} = require("path")
+const cracoPluginStyleResourcesLoader = require('craco-plugin-style-resources-loader');
+const {
+  resolve
+} = require("path")
 
 module.exports = {
-  plugins:[{plugin:CracoLessPlugin}],
+  plugins: [{
+    plugin: CracoLessPlugin
+  }, {
+    plugin: cracoPluginStyleResourcesLoader,
+    options: {
+      patterns: resolve(__dirname, './src/assets/style/common.less'),
+      styleType: 'less'
+    }
+  }],
   webpack: {
-      alias: {
-        "@" : resolve(__dirname,"src")
-      },
+    alias: {
+      "@": resolve(__dirname, "src")
+    }
   }
 };
