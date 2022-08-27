@@ -2,10 +2,10 @@ import { FC } from 'react'
 
 export interface routeInter {
   path: string,
-  name?: string,
   icon?: string | JSX.Element,
   redirect?: string,
   index?: boolean,
-  component: FC<any>,
+  element: FC<any>,
+  meta?: any,
   children?: routeInter[]
 } 

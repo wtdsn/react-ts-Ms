@@ -1,5 +1,6 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
+import { useNavigate } from 'react-router-dom'
 import React from 'react';
 
 import './index.less'
@@ -9,9 +10,11 @@ interface LFInter {
   toggleForm: (e?: any) => void
 }
 const LoginForm: React.FC<LFInter> = (props) => {
-
+  const navi = useNavigate()
   const onFinish = (values: any) => {
     console.log('Received values of form: ', values);
+    localStorage.setItem('auth', 'admin')
+    navi('/')
   };
 
   return (

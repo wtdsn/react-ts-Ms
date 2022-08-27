@@ -2,7 +2,7 @@ import SideBar from './SideBar'
 import Head from './Head'
 import Suspense from '@/components/Suspense'
 
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useMatch, Outlet } from 'react-router-dom'
 import { FC } from 'react'
 import { Layout as AntdLayout } from 'antd';

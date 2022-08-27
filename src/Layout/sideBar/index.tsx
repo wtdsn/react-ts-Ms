@@ -1,56 +1,94 @@
 
-import { FC } from "react"
+import { FC, useState, useEffect } from "react"
 import { Layout, Menu } from 'antd';
-import { useNavigate } from "react-router";
-
-import {
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons';
+import { useNavigate, useLocation } from "react-router-dom";
+import join from '@/utils/join'
 
 import './index.less'
+import { routeInter } from "@/Router/routeInters";
 
-
+/* interface */
 interface SideInter {
   collapsed: boolean
 }
+interface menuItemInter {
+  key: string,
+  label: string,
+  icon?: JSX.Element,
+  children?: menuItemInter[]
+}
 
-const { Sider } = Layout
-const routes = [{
-  key: '/test',
-  path: '/test',
-  icon: <UploadOutlined />,
-  label: 'test',
-}, {
-  key: '2',
-  icon: <UserOutlined />,
-  label: 'users',
-  children: [
-    {
-      key: '/user',
-      path: '/user',
-      icon: <VideoCameraOutlined />,
-      label: 'user',
-    },
-  ]
-}]
 const SideBar: FC<SideInter> = (prop) => {
+
+  /* 校准当前 active 的项 */
+  const location = useLocation()
+  const [curPath, setCurPath] = useState<string>(location.pathname)
+  useEffect(() => {
+    if (curPath !== location.pathname) {
+      setCurPath(location.pathname)
+    }
+  }, [curPath, location])
+
+  /* 点击 menu */
   const navi = useNavigate()
   function clickCb(arg: any) {
-    console.log(arg);
     navi(arg.key)
   }
-  return (<Sider trigger={null} collapsible collapsed={prop.collapsed}>
+
+  /* 处理 menu Items */
+  const [routesString, setRoutesString] = useState('')
+  const [menuItems, setMenuItems] = useState<menuItemInter[]>([])
+  useEffect(() => {
+    let str = localStorage.getItem('routes')
+    if (str && routesString !== str) {
+      setRoutesString(str)
+      setMenuItems(generateMenu(JSON.parse(str), ''))
+    }
+  }, [routesString, curPath])
+
+  return (<Layout.Sider trigger={null} collapsible collapsed={prop.collapsed}>
     <div className="logo" />
     <Menu
       theme="dark"
       mode="inline"
-      defaultSelectedKeys={['1']}
+      selectedKeys={[curPath]}
       onClick={clickCb}
-      items={routes}
+      items={menuItems}
     />
-  </Sider>)
+  </Layout.Sider>)
+}
+
+function generateMenu(routes: routeInter[], fatherPath = ''): menuItemInter[] {
+  const menuItems: menuItemInter[] = []
+
+  routes.forEach((v) => {
+    /* 如果隐藏 */
+    if (v?.meta && v.meta?.hidden) {
+      /* 如果有孩子，仅取第一个，没有孩子则是非 menu 的页面 */
+      if (v.children) {
+        menuItems.push({
+          key: join(fatherPath, v.path, v.children[0].path),
+          label: v.children[0].meta.title
+        })
+      }
+    } else {
+      /* 非隐藏 有孩子 */
+      if (v.children && v.children.length > 0) {
+        menuItems.push({
+          key: join(fatherPath, v.path),
+          label: v.meta.title,
+          children: generateMenu(v.children, join(fatherPath, v.path))
+        })
+      } else {
+        /* 非隐藏无孩子 */
+        menuItems.push({
+          key: join(fatherPath, v.path),
+          label: v.meta.title
+        })
+      }
+    }
+  })
+  return menuItems
 }
 
 export default SideBar
