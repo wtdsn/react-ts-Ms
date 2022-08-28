@@ -1,5 +1,8 @@
 import { FC, createElement } from 'react'
 import { Layout } from 'antd'
+import Logout from './Logout/Logout'
+import Breadcrumb from './Breadcrumb/index'
+
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined
@@ -15,10 +18,19 @@ interface HeadInter {
 }
 const Head: FC<HeadInter> = (props) => {
   return (<Header className='head'>
-    {createElement(props.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-      className: 'trigger',
-      onClick: () => props.setCollapsed(!props.collapsed),
-    })}
+    <div className='left_tools'>
+      {/* 折叠 */}
+      {createElement(props.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+        className: 'trigger',
+        onClick: () => props.setCollapsed(!props.collapsed),
+      })}
+      {/* 面包屑 */}
+      <Breadcrumb />
+    </div>
+
+    <div className='right_tools'>
+      <Logout />
+    </div>
   </Header>)
 }
 

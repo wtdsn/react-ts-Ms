@@ -1,20 +1,36 @@
+@headerH: 47px;
+
 .head {
+  div {
+    max-height: @headerH ;
+    line-height: @headerH ;
+  }
+
   background-color: #fff !important;
   border-bottom: 1px solid rgb(236, 236, 236);
   z-index: 99;
 
   padding: 0 20px !important;
-  height: 47px !important;
+  height: @headerH  !important;
 
   .vertiCenter();
+  justify-content: space-between;
 
   .trigger {
     font-size: 18px;
+    margin-right: 30px;
     cursor: pointer;
     transition: color 0.3s;
   }
 
   .trigger:hover {
     color: #1890ff;
+  }
+
+
+  .left_tools,
+  .right_tools {
+    height: 100%;
+    .vertiCenter();
   }
 }

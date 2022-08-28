@@ -3,6 +3,7 @@ import { routeInter } from './routeInters'
 import { constRoutes, asyncRoutes } from '@/Router/routes'
 import { useEffect, useState } from "react"
 
+/* 路由组件 */
 const Router = () => {
   const loaction = useLocation()
   const navi = useNavigate()
@@ -42,6 +43,7 @@ const Router = () => {
   )
 }
 
+/* map 函数回调 ，根据 路由 生成 route 组件 */
 function mapRoutes(route: routeInter, i: number): JSX.Element {
   /* when having children */
   if (route.children && route.children.length > 0) {
@@ -62,11 +64,11 @@ function mapRoutes(route: routeInter, i: number): JSX.Element {
   return (<Route key={route.path} path={route.path} element={<route.element />}></ Route >)
 }
 
+/* 根据权限动态生成路由表 */
 function generateRoutes(auth: string): routeInter[] {
   function _generateRoutes(routes: routeInter[]): routeInter[] {
     const route: routeInter[] = []
     routes.forEach(v => {
-      console.log("v", v)
       if (!v.meta || !v.meta.auth || v.meta.auth.includes(auth)) {
         let r = { ...v }
         if (v.children && v.children.length > 0) {
@@ -80,9 +82,5 @@ function generateRoutes(auth: string): routeInter[] {
 
   return [...constRoutes, ..._generateRoutes(asyncRoutes)]
 }
-
-
-
-
 
 export default Router

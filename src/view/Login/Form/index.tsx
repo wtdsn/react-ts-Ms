@@ -13,7 +13,13 @@ const LoginForm: React.FC<LFInter> = (props) => {
   const navi = useNavigate()
   const onFinish = (values: any) => {
     console.log('Received values of form: ', values);
-    localStorage.setItem('auth', 'admin')
+    let { username } = values
+    if (username === 'admin') {
+      localStorage.setItem('auth', 'admin')
+    } else {
+      localStorage.setItem('auth', 'editor')
+    }
+
     navi('/')
   };
 
@@ -45,16 +51,16 @@ const LoginForm: React.FC<LFInter> = (props) => {
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
 
-        <a className="login-form-forgot" >
+        <div className="login-form-forgot" >
           Forgot password
-        </a>
+        </div>
       </Form.Item>
 
       <Form.Item>
         <Button type="primary" htmlType="submit" className="login-form-button">
           Log in
         </Button>
-        Or <a onClick={props.toggleForm}>register now!</a>
+        Or <div onClick={props.toggleForm}>register now!</div>
       </Form.Item>
     </Form>
   );

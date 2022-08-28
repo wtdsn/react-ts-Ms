@@ -37,7 +37,7 @@ const constRoutes: routeInter[] = [
     ]
   },
   {
-    path: '/',
+    path: '/users',
     element: Layout,
     meta: {
       title: 'users'
@@ -78,11 +78,11 @@ const asyncRoutes: routeInter[] = [
     },
     children: [
       {
+        path: '/async1',
         meta: {
           title: 'async1',
           auth: ['admin']
         },
-        path: '/async1',
         element: lazy(() => import('@/view/AsyncP1/index'))
       }
     ]

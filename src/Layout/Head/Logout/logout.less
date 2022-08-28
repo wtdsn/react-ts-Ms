@@ -1,0 +1,76 @@
+.logout_box {
+  position: relative;
+
+  height: 38px;
+  width: 38px;
+  border-radius: 50%;
+
+  .avatar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 99;
+
+    display: block;
+    height: 40px;
+    border-radius: 50%;
+
+    transition: all 0.2s ease-out;
+
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0 0 2px 1px rgb(75, 130, 142);
+    }
+  }
+
+  .drop_box {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    transition: all 0.2s ease-out;
+
+    font-size: 0;
+  }
+
+}
+
+.logout {
+  .avatar {
+    right: 40px;
+    box-shadow: 0 0 2px 1px rgb(75, 130, 142);
+  }
+
+  .drop_box {
+    right: 0;
+    width: 120px;
+    height: 160px;
+    max-height: 160px;
+    padding: 40px 10px 10px;
+
+    background-color: rgb(241, 253, 255);
+    box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.204);
+
+    border-radius: 10px;
+
+    div {
+      font-size: 16px;
+      text-align: center;
+      line-height: 38px !important;
+      border-bottom: 1px solid rgb(228, 227, 227);
+
+      cursor: pointer;
+
+      &:last-child{
+        border-bottom: none;
+      }
+    }
+  }
+}

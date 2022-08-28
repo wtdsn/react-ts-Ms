@@ -27,7 +27,8 @@
     }
   },
   "include": [
-    "src"
+    "src",
+    "./imgallow.d.ts"
   ],
   "exclude": [
     "node_modules"
