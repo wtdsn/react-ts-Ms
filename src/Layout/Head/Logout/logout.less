@@ -37,7 +37,22 @@
 
     transition: all 0.2s ease-out;
 
-    font-size: 0;
+
+    div {
+      font-size: 0;
+      text-align: center;
+
+      cursor: pointer;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.04);
+        color: @themeColor;
+      }
+    }
   }
 
 }
@@ -62,13 +77,10 @@
 
     div {
       font-size: 16px;
-      text-align: center;
       line-height: 38px !important;
       border-bottom: 1px solid rgb(228, 227, 227);
 
-      cursor: pointer;
-
-      &:last-child{
+      &:last-child {
         border-bottom: none;
       }
     }

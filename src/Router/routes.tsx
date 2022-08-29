@@ -39,6 +39,7 @@ const constRoutes: routeInter[] = [
   {
     path: '/users',
     element: Layout,
+    redirect: '/users/user',
     meta: {
       title: 'users'
     },
@@ -89,6 +90,7 @@ const asyncRoutes: routeInter[] = [
   }, {
     path: '/asynList',
     element: Layout,
+    redirect: '/asynList/async2',
     meta: {
       title: 'asyncList',
       auth: ['editor', 'admin']
@@ -105,7 +107,7 @@ const asyncRoutes: routeInter[] = [
         path: 'async3',
         meta: {
           title: 'async3',
-          auth: ['editor']
+          auth: ['editor', 'admin']
         },
         element: lazy(() => import('@/view/AsyncP3/index'))
       }

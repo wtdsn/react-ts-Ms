@@ -1,0 +1,45 @@
+  .bread_crumb {
+    .item {
+      cursor: pointer;
+    }
+
+    span {
+      display: inline-block;
+    }
+
+    .move_in {
+      opacity: 0;
+      transform: translateX(-20px);
+      animation: slideIn 0.2s linear forwards;
+    }
+
+    .move_out {
+      transform: translateX(0px);
+      animation: slideOut 0.2s linear forwards;
+    }
+
+    @keyframes slideIn {
+      0% {
+        transform: translateX(-20px);
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateX(0px);
+      }
+    }
+
+    @keyframes slideOut {
+      0% {
+        opacity: 1;
+        transform: translateX(0px);
+
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+    }
+  }

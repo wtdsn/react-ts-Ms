@@ -40,7 +40,7 @@ const Register: React.FC<RFInter> = (props) => {
         <Button type="primary" htmlType="submit" className="login-form-button">
           register
         </Button>
-        Or <a onClick={props.toggleForm}>login now!</a>
+        <div className='like_a' onClick={props.toggleForm}>login now!</div>
       </Form.Item>
     </Form>
   );

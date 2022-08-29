@@ -1,5 +1,6 @@
- .login-form {
+ .login_form {
    max-width: 300px;
+   width: 100%;
  }
 
  .login-form-forgot {
@@ -12,4 +13,40 @@
 
  .login-form-button {
    width: 100%;
+ }
+
+ .veri_code_part {
+   display: flex;
+   width: 100%;
+   height: 40px;
+
+   .veri_input {
+     flex: 1;
+   }
+
+   .veri_code_box {
+     width: 80px;
+     min-width: 80px;
+     height: 32px;
+     line-height: 32px;
+     margin-left: 10px;
+
+     color: rgb(176, 191, 224);
+     background-color: rgb(72, 75, 114);
+     text-align: center;
+     border-radius: 2px;
+     overflow: hidden;
+   }
+ }
+
+ .like_a {
+   transform: translateY(14px);
+
+   float: right;
+   text-decoration: underline;
+   cursor: pointer;
+
+   &:hover {
+     color: @themeColor;
+   }
  }

@@ -34,7 +34,7 @@ const Router = () => {
         }
       }
     }
-  }, [loaction, addRoutes, navi])
+  }, [loaction.pathname, addRoutes, navi])
 
   return (
     <Routes>
@@ -65,7 +65,7 @@ function mapRoutes(route: routeInter, i: number): JSX.Element {
 }
 
 /* 根据权限动态生成路由表 */
-function generateRoutes(auth: string): routeInter[] {
+export function generateRoutes(auth: string): routeInter[] {
   function _generateRoutes(routes: routeInter[]): routeInter[] {
     const route: routeInter[] = []
     routes.forEach(v => {
