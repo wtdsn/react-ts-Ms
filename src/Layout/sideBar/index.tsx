@@ -7,6 +7,9 @@ import join from '@/utils/join'
 import './index.less'
 import { routeInter } from "@/Router/routeInters";
 
+import { useAppSelector } from '@/Store/hook'
+import { selectRoutes } from '@/Store/slices/route'
+
 /* interface */
 interface SideInter {
   collapsed: boolean
@@ -36,15 +39,11 @@ const SideBar: FC<SideInter> = (prop) => {
   }
 
   /* 处理 menu Items */
-  const [routesString, setRoutesString] = useState('')
+  const routes = useAppSelector(selectRoutes)
   const [menuItems, setMenuItems] = useState<menuItemInter[]>([])
   useEffect(() => {
-    let str = localStorage.getItem('routes')
-    if (str && routesString !== str) {
-      setRoutesString(str)
-      setMenuItems(generateMenu(JSON.parse(str), ''))
-    }
-  }, [routesString, curPath])
+    setMenuItems(generateMenu(routes, ''))
+  }, [routes, curPath])
 
   return (<Layout.Sider trigger={null} collapsible collapsed={prop.collapsed}>
     <div className="logo" />

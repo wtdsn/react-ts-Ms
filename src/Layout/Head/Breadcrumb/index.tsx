@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'
 import './item.less'
 
+import { useAppSelector } from '@/Store/hook'
+import { selectRoutes } from '@/Store/slices/route'
+
 interface breakInter {
   name: string,
   href?: string,
@@ -13,39 +16,29 @@ interface breakInter {
 function Breadcrumb() {
 
   const location = useLocation()
-  const [routesStr, setRoutesStr] = useState("")
   const [routeMap, setRoutesMap] = useState<Map<string, string>>()
   const [breakList, setBreakList] = useState<breakInter[]>([])
   const [isMoveIn, setMoveDir] = useState(true)
 
   /* 路由变化时，检测路由表是否变化 */
+  const routes = useAppSelector(selectRoutes)
+
   useEffect(() => {
-    let str = localStorage.getItem('routes')
-    if (str && str !== routesStr) {
-      setRoutesStr(str)
+    setRoutesMap(getRoutesMap(routes))
+    console.log(routes);    
+  }, [routes])
 
-      /* 如果路由表变化了，更新 route 的 Map 映射 path-> title（name） 的映射 */
-      let m = getRoutesMap(str)
-      setRoutesMap(m)
-
-      setMoveDir(false)
-      setTimeout(() => {
-        setMoveDir(true)
-        setBreakList(getBreakList(m, location.pathname))
-      }, 200)
-
-    } else {
-      /* 面包屑动画 */
-      setMoveDir(false)
-      setTimeout(() => {
-        setMoveDir(true)
-        /* 根据映射 和 当前路由生成 面包屑 */
-        setBreakList(getBreakList(routeMap, location.pathname))
-      }, 200)
-    }
+  useEffect(() => {
+    /* 面包屑动画 */
+    setMoveDir(false)
+    setTimeout(() => {
+      setMoveDir(true)
+      /* 根据映射 和 当前路由生成 面包屑 */
+      setBreakList(getBreakList(routeMap, location.pathname))
+    }, 200)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname])
+  }, [location.pathname, routeMap])
 
   const navi = useNavigate()
   function naviTo(index: number) {
@@ -101,8 +94,8 @@ function getBreakList(routesMap: any, path: string): breakInter[] {
 
 /* 获取 路由 Map  */
 /* 对于仅有 params 参数的路由不好处理 */
-function getRoutesMap(routesString: string) {
-  let routesMap = new Map(), routes = JSON.parse(routesString)
+function getRoutesMap(routes: routeInter[]) {
+  let routesMap = new Map()
   function _setMap(route: routeInter) {
     if (route?.meta?.title) {
       routesMap.set(route.path, route.meta.title)

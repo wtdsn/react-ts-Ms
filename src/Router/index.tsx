@@ -1,28 +1,32 @@
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom"
 import { routeInter } from './routeInters'
 import { constRoutes, asyncRoutes } from '@/Router/routes'
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
+
+import { useAppSelector, useAppDispatch } from "@/Store/hook"
+import { setAddRoutes, setRoutes, selectRoutes, selectAddRoutes } from '@/Store/slices/route'
 
 /* 路由组件 */
 const Router = () => {
   const loaction = useLocation()
   const navi = useNavigate()
-  const [routes, setRoutes] = useState<routeInter[]>(constRoutes)
-  const [addRoutes, setAddRoutes] = useState<routeInter[]>([])
+
+  const routes = useAppSelector(selectRoutes)
+  const addRoutes = useAppSelector(selectAddRoutes)
+  const dispatch = useAppDispatch()
 
   /* 渲染前，判断是否有权限 */
   /* 通过权限更新路由等 */
   useEffect(() => {
     let auth = localStorage.getItem('auth')
+    console.log(routes);
 
     /* 如果没有权限 */
     if (!auth) {
       /* 清除路由记录 */
-      if (addRoutes.length > 0) {
-        localStorage.removeItem('routes')
-        setRoutes(constRoutes)
-        setAddRoutes([])
-      }
+      dispatch(setRoutes([...constRoutes]))
+      dispatch(setAddRoutes([]))
+
       /* 跳转到登录 */
       if (loaction.pathname !== '/login') {
         navi("/login")
@@ -34,17 +38,17 @@ const Router = () => {
           navi('/')
         } else if (addRoutes.length === 0) {
           let routes = generateRoutes(auth)
-          localStorage.setItem('routes', JSON.stringify(routes))
-          setRoutes(routes)
-          setAddRoutes(routes)
+          dispatch(setRoutes(routes))
+          dispatch(setAddRoutes(routes))
         }
       }
     }
-  }, [loaction.pathname, addRoutes, navi])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loaction.pathname])
 
   return (
     <Routes>
-      {routes.map(mapRoutes)}
+      {constRoutes.map(mapRoutes)}
     </Routes>
   )
 }
@@ -72,6 +76,10 @@ function mapRoutes(route: routeInter, i: number): JSX.Element {
 
 /* 根据权限动态生成路由表 */
 export function generateRoutes(auth: string): routeInter[] {
+  if (auth === '') {
+    return [...constRoutes]
+  }
+
   function _generateRoutes(routes: routeInter[]): routeInter[] {
     const route: routeInter[] = []
     routes.forEach(v => {

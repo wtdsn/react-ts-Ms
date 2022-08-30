@@ -1,9 +1,15 @@
-import { useState } from "react"
+import { useAppSelector, useAppDispatch } from '@/Store/hook'
+import { decrement, increment, selectorCount } from '@/Store/slices/count'
 
 function Test() {
-  const [count, setCount] = useState(0)
-  return (<div onClick={() => setCount(count + 1)}>Test Page
-    {count}
+  const count = useAppSelector(selectorCount)
+  const dispatch = useAppDispatch()
+
+  return (<div>Test Page
+    :{count}
+    <div></div>
+    <button onClick={() => dispatch(increment())}>+</button>
+    <button onClick={() => dispatch(decrement())}>-</button>
   </div>)
 }
 

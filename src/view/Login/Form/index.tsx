@@ -4,7 +4,6 @@ import { Button, Checkbox, Form, Input, message } from 'antd';
 import { useNavigate } from 'react-router-dom'
 import React, { useState } from 'react';
 
-import { generateRoutes } from '@/Router/index'
 import VeriCode from '@/components/VeriCode/veriCode';
 
 import './index.less'
@@ -31,12 +30,9 @@ const LoginForm: React.FC<LFInter> = (props) => {
     message.success("登录成功！")
     if (username === 'admin') {
       localStorage.setItem('auth', 'admin')
-      localStorage.setItem('routes', JSON.stringify(generateRoutes('admin')))
     } else {
       localStorage.setItem('auth', 'editor')
-      localStorage.setItem('routes', JSON.stringify(generateRoutes('editor')))
     }
-
 
     navi('/')
   };
