@@ -1,7 +1,9 @@
 import { LockOutlined, UserOutlined, BugOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Checkbox, Form, Input, message } from 'antd';
+
 import { useNavigate } from 'react-router-dom'
 import React, { useState } from 'react';
+
 import { generateRoutes } from '@/Router/index'
 import VeriCode from '@/components/VeriCode/veriCode';
 
@@ -22,16 +24,11 @@ const LoginForm: React.FC<LFInter> = (props) => {
 
     if (veriCode.toLowerCase() !== code.toLowerCase()) {
       setRefresh(Date.now())
-      /*   alert("验证码错误！") */
-      setTimeout(() => {
-        console.log("@@")
-
-        loginForm.setFieldsValue({ veriCode: '' })
-      }, 1000)
-
+      message.error("验证码错误！")
+      loginForm.setFieldsValue({ veriCode: '' })
       return
     }
-
+    message.success("登录成功！")
     if (username === 'admin') {
       localStorage.setItem('auth', 'admin')
       localStorage.setItem('routes', JSON.stringify(generateRoutes('admin')))

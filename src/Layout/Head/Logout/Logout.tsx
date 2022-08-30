@@ -1,4 +1,5 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
+import { message } from 'antd'
 import { useNavigate } from 'react-router'
 import './logout.less'
 import avatar from '@/assets/img/head/avatar.jpg'
@@ -39,6 +40,7 @@ const Logout: FC = () => {
   const logOut = () => {
     localStorage.removeItem('auth')
     localStorage.removeItem('routes')
+    message.success("登出成功！")
     navi('/login')
   }
 

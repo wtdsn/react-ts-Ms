@@ -16,11 +16,17 @@ const Router = () => {
     let auth = localStorage.getItem('auth')
 
     /* 如果没有权限 */
-    if (!auth && loaction.pathname !== '/login') {
-      setRoutes(constRoutes)
-      setAddRoutes([])
-      localStorage.removeItem('routes')
-      navi("/login")
+    if (!auth) {
+      /* 清除路由记录 */
+      if (addRoutes.length > 0) {
+        localStorage.removeItem('routes')
+        setRoutes(constRoutes)
+        setAddRoutes([])
+      }
+      /* 跳转到登录 */
+      if (loaction.pathname !== '/login') {
+        navi("/login")
+      }
     } else {
       if (auth) {
         /* 有权限 */
