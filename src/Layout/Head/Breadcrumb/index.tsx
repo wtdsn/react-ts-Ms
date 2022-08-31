@@ -6,7 +6,6 @@ import './item.less'
 
 import { Groutes } from '@/Router/index'
 
-
 interface breakInter {
   name: string,
   href?: string,
@@ -15,10 +14,17 @@ interface breakInter {
 
 function Breadcrumb() {
 
+  /* location 监听 导航栏路径的变化 */
   const location = useLocation()
+  /* routeMap 记录 path 和 title 的映射 ，快速查找对应的标题 */
   const [routeMap, setRoutesMap] = useState<Map<string, string>>()
+
+  /* 面包屑数据 */
   const [breakList, setBreakList] = useState<breakInter[]>([])
+
+  /* 面包屑动画相关操控变量 */
   const [isMoveIn, setMoveDir] = useState(true)
+  const [moveRange, setMoveRange] = useState(-1)
 
   /* 路由变化时，检测路由表是否变化 */
   const routes = useContext(Groutes)
@@ -28,17 +34,33 @@ function Breadcrumb() {
   }, [routes])
 
   useEffect(() => {
+    let newList = getBreakList(routeMap, location.pathname)
+
+    /* 获取并设置动画的下标范围 */
+    for (let i = 0; i < newList.length; i++) {
+      if (newList[i].name !== breakList[i].name) {
+        setMoveRange(i - 1)
+        break
+      }
+    }
+
     /* 面包屑动画 */
     setMoveDir(false)
-    setTimeout(() => {
+    let timer = setTimeout(() => {
       setMoveDir(true)
       /* 根据映射 和 当前路由生成 面包屑 */
-      setBreakList(getBreakList(routeMap, location.pathname))
+      setBreakList(newList)
     }, 200)
 
+    /* 清除 定时器 ，防止内存泄漏 */
+    return () => {
+      clearTimeout(timer)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname, routeMap])
 
+
+  /* 点击面包屑跳转 */
   const navi = useNavigate()
   function naviTo(index: number) {
     let path = ''
@@ -52,18 +74,26 @@ function Breadcrumb() {
     }
   }
 
+  /* 动画 class 设置  */
+  const getClass = (i: number): string => {
+    if (moveRange < i) {
+      return `item ${isMoveIn ? 'move_in' : 'move_out'}`
+    }
+    return 'item'
+  }
+
   return (<AntBread className='bread_crumb' separator="">
     {breakList.map((v, i) => {
       let returnEl
       if (v.path) {
-        returnEl = <AntBread.Item onClick={() => naviTo(i)} className={`item ${isMoveIn ? 'move_in' : 'move_out'}`} key={v.path}>{v.name}</AntBread.Item>
+        returnEl = <AntBread.Item onClick={() => naviTo(i)} className={getClass(i)} key={v.path}>{v.name}</AntBread.Item>
       } else if (v.href) {
-        returnEl = <AntBread.Item onClick={() => naviTo(i)} className={`item ${isMoveIn ? 'move_in' : 'move_out'}`} key={v.href} href={v.href}>{v.name}</AntBread.Item>
+        returnEl = <AntBread.Item onClick={() => naviTo(i)} className={getClass(i)} key={v.href} href={v.href}>{v.name}</AntBread.Item>
       } else {
-        returnEl = <AntBread.Item onClick={() => naviTo(i)} className={`item ${isMoveIn ? 'move_in' : 'move_out'}`} key={i} >{v.name}</AntBread.Item>
+        returnEl = <AntBread.Item onClick={() => naviTo(i)} className={getClass(i)} key={i} >{v.name}</AntBread.Item>
       }
       if (i !== breakList.length - 1) {
-        return [returnEl, < AntBread.Separator children={<span className={`${isMoveIn ? 'move_in' : 'move_out'}`}>{'>'}</span>} />]
+        return [returnEl, < AntBread.Separator children={<span className={getClass(i)}>{'>'}</span>} />]
       }
       return returnEl
     })}
