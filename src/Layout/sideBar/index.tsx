@@ -1,5 +1,5 @@
 
-import { FC, useState, useEffect } from "react"
+import { FC, useState, useEffect, useContext } from "react"
 import { Layout, Menu } from 'antd';
 import { useNavigate, useLocation } from "react-router-dom";
 import join from '@/utils/join'
@@ -7,8 +7,8 @@ import join from '@/utils/join'
 import './index.less'
 import { routeInter } from "@/Router/routeInters";
 
-import { useAppSelector } from '@/Store/hook'
-import { selectRoutes } from '@/Store/slices/route'
+import { Groutes } from '@/Router/index'
+
 
 /* interface */
 interface SideInter {
@@ -39,7 +39,7 @@ const SideBar: FC<SideInter> = (prop) => {
   }
 
   /* 处理 menu Items */
-  const routes = useAppSelector(selectRoutes)
+  const routes = useContext(Groutes)
   const [menuItems, setMenuItems] = useState<menuItemInter[]>([])
   useEffect(() => {
     setMenuItems(generateMenu(routes, ''))

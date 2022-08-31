@@ -1,31 +1,29 @@
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom"
 import { routeInter } from './routeInters'
 import { constRoutes, asyncRoutes } from '@/Router/routes'
-import { useEffect } from "react"
+import { useEffect, createContext, useState } from "react"
 
-import { useAppSelector, useAppDispatch } from "@/Store/hook"
-import { setAddRoutes, setRoutes, selectRoutes, selectAddRoutes } from '@/Store/slices/route'
 
 /* 路由组件 */
+export const Groutes = createContext(constRoutes)
+
 const Router = () => {
   const loaction = useLocation()
   const navi = useNavigate()
 
-  const routes = useAppSelector(selectRoutes)
-  const addRoutes = useAppSelector(selectAddRoutes)
-  const dispatch = useAppDispatch()
+  const [routes, setRoutes] = useState<routeInter[]>([])
+  const [addRoutes, setAddRoutes] = useState<routeInter[]>([])
 
   /* 渲染前，判断是否有权限 */
   /* 通过权限更新路由等 */
   useEffect(() => {
     let auth = localStorage.getItem('auth')
-    console.log(routes);
 
     /* 如果没有权限 */
     if (!auth) {
       /* 清除路由记录 */
-      dispatch(setRoutes([...constRoutes]))
-      dispatch(setAddRoutes([]))
+      setRoutes([...constRoutes])
+      setAddRoutes([])
 
       /* 跳转到登录 */
       if (loaction.pathname !== '/login') {
@@ -38,8 +36,8 @@ const Router = () => {
           navi('/')
         } else if (addRoutes.length === 0) {
           let routes = generateRoutes(auth)
-          dispatch(setRoutes(routes))
-          dispatch(setAddRoutes(routes))
+          setRoutes(routes)
+          setAddRoutes(routes)
         }
       }
     }
@@ -47,9 +45,11 @@ const Router = () => {
   }, [loaction.pathname])
 
   return (
-    <Routes>
-      {constRoutes.map(mapRoutes)}
-    </Routes>
+    <Groutes.Provider value={routes} >
+      <Routes>
+        {routes.map(mapRoutes)}
+      </Routes>
+    </Groutes.Provider>
   )
 }
 

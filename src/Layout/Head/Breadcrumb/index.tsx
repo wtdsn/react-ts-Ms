@@ -1,11 +1,11 @@
 import { routeInter } from '@/Router/routeInters';
 import { Breadcrumb as AntBread } from 'antd'
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'
 import './item.less'
 
-import { useAppSelector } from '@/Store/hook'
-import { selectRoutes } from '@/Store/slices/route'
+import { Groutes } from '@/Router/index'
+
 
 interface breakInter {
   name: string,
@@ -21,11 +21,10 @@ function Breadcrumb() {
   const [isMoveIn, setMoveDir] = useState(true)
 
   /* 路由变化时，检测路由表是否变化 */
-  const routes = useAppSelector(selectRoutes)
+  const routes = useContext(Groutes)
 
   useEffect(() => {
     setRoutesMap(getRoutesMap(routes))
-    console.log(routes);    
   }, [routes])
 
   useEffect(() => {
@@ -74,6 +73,7 @@ function Breadcrumb() {
 /* 获取面包屑 */
 function getBreakList(routesMap: any, path: string): breakInter[] {
   let paths = path.split('/'), breakList: breakInter[] = []
+  if (!routesMap) return []
 
   paths.forEach(v => {
     if (routesMap.has('/' + v)) {
