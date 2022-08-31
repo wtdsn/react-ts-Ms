@@ -3,14 +3,12 @@ import type { RootState } from "../index";
 
 /* state 的接口类型定义 */
 interface countInter {
-  value: number,
-  arr: any[]
+  value: number
 }
 
 /* 定义初始的 count 的 state  */
 const initialState: countInter = {
-  value: 0,
-  arr: []
+  value: 0
 }
 
 /* 创建 */
@@ -21,11 +19,6 @@ export const countSlice = createSlice({
     /* 具体定义 reducer 函数 ，此函数改变 state */
     increment: state => {
       state.value += 1
-      state.arr.push([{
-        name: '12'
-      }])
-      console.log(state.arr);
-
     },
     decrement: state => {
       state.value -= 1

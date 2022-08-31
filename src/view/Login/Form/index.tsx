@@ -1,10 +1,21 @@
 import { LockOutlined, UserOutlined, BugOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, message } from 'antd';
-
+import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { useNavigate } from 'react-router-dom'
 import React, { useState } from 'react';
 
+/* 使用 cookie 保存 auth , 因为刷新会导致 redux 数据丢失 */
+import Cookies from 'js-cookie'
+
+/* 验证码 */
 import VeriCode from '@/components/VeriCode/veriCode';
+
+import { useAppDispatch } from '@/Store/hook';
+import { setUserInfo } from '@/Store/slices/user';
+
+// 请求 API
+import { login } from '@/Api/user'
+
 
 import './index.less'
 
@@ -15,27 +26,46 @@ interface LFInter {
 const LoginForm: React.FC<LFInter> = (props) => {
   const [loginForm] = Form.useForm();
 
-  /* 完成登录 */
+  const [loading, setLoading] = useState(false)
+
+  /* 登录相关 */
   const navi = useNavigate()
-  const onFinish = (values: any) => {
-    console.log('Received values of form: ', values);
-    let { username, veriCode } = values
+  const dispatch = useAppDispatch()
+  /* 提交登录 */
+  const onFinish = async (values: any) => {
+    setLoading(true)
+    let { username, password, veriCode } = values
 
-    if (veriCode.toLowerCase() !== code.toLowerCase()) {
+    const res: any = await login({
+      username, password, veriCode, code
+    })
+
+    setLoading(false)
+
+    if (res.code === 0) {
+      /* 登录失败 */
+      /* 这里仅记录验证码错误 */
       setRefresh(Date.now())
-      message.error("验证码错误！")
       loginForm.setFieldsValue({ veriCode: '' })
-      return
-    }
-    message.success("登录成功！")
-    if (username === 'admin') {
-      localStorage.setItem('auth', 'admin')
+      message.error(res.msg)
     } else {
-      localStorage.setItem('auth', 'editor')
-    }
+      message.success(res.msg)
 
-    navi('/')
+      /* if you do not use redux or cookie, you can do like this */
+      // localStorage.setItem('auth', 'admin')
+      let userInfo = res.data
+      /* 将 auth 放入 cookie , 解决 redux 刷新丢失问题  */
+      Cookies.set('auth', userInfo.userAuth)
+
+      /* 如果使用 token ,将 token 存入 cookie , 如果仅使用 cookie ,则游览器会自动保存 cookie */
+      // Cookies.set('token', userInfo.userAuth)
+
+      /* 使用 redux 存储用户信息，假如用户需要保存的信息有很多，比如头像 ，部门，等等 */
+      dispatch(setUserInfo(userInfo))
+      navi('/')
+    }
   };
+
 
 
   /* 验证码 */
@@ -45,12 +75,18 @@ const LoginForm: React.FC<LFInter> = (props) => {
     setCode(code)
   }
 
+  /* 记住账号 */
+  const [remember, setRem] = useState(false)
+  const onRemChange = (e: CheckboxChangeEvent) => {
+    setRem(e.target.checked)
+  }
+
   return (
     <Form
       name="loginForm"
       form={loginForm}
       className="login_form"
-      initialValues={{ remember: true }}
+      initialValues={{ remember }}
       onFinish={onFinish}
     >
       {/* 用户名 */}
@@ -58,7 +94,7 @@ const LoginForm: React.FC<LFInter> = (props) => {
         name="username"
         rules={[{ required: true, message: 'Please input your Username!' }]}
       >
-        <Input prefix={<UserOutlined />} placeholder="Username" />
+        <Input prefix={<UserOutlined />} placeholder="Username" autoComplete={remember ? 'on' : 'off'} />
       </Form.Item>
       {/* 密码 */}
       <Form.Item
@@ -84,6 +120,7 @@ const LoginForm: React.FC<LFInter> = (props) => {
             prefix={<BugOutlined />}
             type="text"
             placeholder="veriCode"
+            autoComplete="off"
           />
         </Form.Item>
         {/* 验证码 canvas */}
@@ -94,7 +131,7 @@ const LoginForm: React.FC<LFInter> = (props) => {
       {/* 记住密码 */}
       <Form.Item>
         <Form.Item name="remember" valuePropName="checked" noStyle>
-          <Checkbox>Remember me</Checkbox>
+          <Checkbox onChange={onRemChange}>Remember me</Checkbox>
         </Form.Item>
 
         <div className="login-form-forgot" >
@@ -104,7 +141,7 @@ const LoginForm: React.FC<LFInter> = (props) => {
 
       {/* 登录 */}
       <Form.Item>
-        <Button type="primary" htmlType="submit" className="login-form-button">
+        <Button type="primary" htmlType="submit" className="login-form-button" loading={loading}>
           Log in
         </Button>
         <div className='like_a' onClick={props.toggleForm}>register now</div>

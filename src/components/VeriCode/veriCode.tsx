@@ -13,6 +13,14 @@ const VeriCode: FC<propsIn> = (props) => {
   const canvas = useRef<HTMLCanvasElement>(null)
   const [Ctx, setCtx] = useState<CanvasRenderingContext2D>()
 
+  function getColor(): string {
+    return `rgb(${Math.floor(Math.random() * 100 + 150)},${Math.floor(Math.random() * 100 + 150)},${Math.floor(Math.random() * 100 + 150)})`
+  }
+
+  function getBgC(): string {
+    return `rgb(${Math.floor(Math.random() * 20 + 20)},${Math.floor(Math.random() * 20 + 20)},${Math.floor(Math.random() * 20 + 50)})`
+  }
+
   const init = () => {
     if (!Ctx) return
 
@@ -30,24 +38,45 @@ const VeriCode: FC<propsIn> = (props) => {
     }
 
     let ctx = Ctx as CanvasRenderingContext2D
+
+    /* 清楚画布 */
     ctx.clearRect(0, 0, width, height)
+
+    /* 渲染背景 */
+    ctx.fillStyle = getBgC()
+    ctx.fillRect(0, 0, width, height)
+
+    /* 设置文字样式 */
     ctx.font = '20px serif'
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
 
-    /* 遍历4此绘画到 canvas */
+
+    /* 模糊化 */
+    let dotNum = Math.ceil(Math.random() * 5) + 5
+
+    ctx.globalAlpha = 0.4
+    for (let i = 0; i < dotNum; i++) {
+      ctx.beginPath()
+      let x = Math.random() * width, y = Math.random() * height
+      ctx.arc(x, y, 2, 0, 2 * Math.PI, false)
+      ctx.fillStyle = getColor()
+      ctx.fill()
+    }
+
+    /* 渲染字符 */
+    ctx.globalAlpha = 1
     for (let i = 0; i < 4; i++) {
       let c = _getCode()
       _code += c
 
-      ctx.beginPath()
       let x = width / 4 * i + width / 8,
         y = height / 2 + Math.random() * 6 - 3,
-        ro = Math.random() * 0.3 - 0.15,
-        color = `rgb(${Math.floor(Math.random() * 100 + 150)},${Math.floor(Math.random() * 100 + 150)},${Math.floor(Math.random() * 100 + 150)})`
+        ro = Math.random() * 0.3 - 0.15
+
 
       ctx.save()
-      ctx.fillStyle = color;
+      ctx.fillStyle = getColor();
       ctx.translate(x, y)
       ctx.rotate(ro * Math.PI)
       ctx.fillText(c + '', 0, 0)
@@ -74,8 +103,7 @@ const VeriCode: FC<propsIn> = (props) => {
   }, [Ctx, refresh])
 
   return (<canvas onClick={() => init()} ref={canvas} width={width} height={height} style={{
-    backgroundColor: '#484b72',
-    cursor:'pointer'
+    cursor: 'pointer'
   }}></canvas>)
 }
 

@@ -1,9 +1,15 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { message } from 'antd'
 import { useNavigate } from 'react-router'
+
 import './logout.less'
 import avatar from '@/assets/img/head/avatar.jpg'
 
+/* userState */
+import { useAppDispatch, useAppSelector } from '@/Store/hook'
+import { selectUserInfo, clearUserInfo } from '@/Store/slices/user'
+
+import Cookies from 'js-cookie'
 
 const Logout: FC = () => {
   /* 是否 dropdwom */
@@ -35,11 +41,19 @@ const Logout: FC = () => {
     return false
   }
 
+  /* userInfo */
+  const userInfo = useAppSelector(selectUserInfo)
+
   /* 登出 */
+  const dispatch = useAppDispatch()
   const navi = useNavigate()
   const logOut = () => {
-    localStorage.removeItem('auth')
-    localStorage.removeItem('routes')
+    dispatch(clearUserInfo())
+    Cookies.remove("auth")
+
+    /* remove token if has */
+    Cookies.remove("token")
+
     message.success("登出成功！")
     navi('/login')
   }
@@ -48,8 +62,8 @@ const Logout: FC = () => {
     <div onClick={stopPropagation} className={`logout_box ${dropDown ? 'logout' : ''}`} >
       <img onClick={toggleDrop} src={avatar} className="avatar" alt='avatar' />
       <div className='drop_box' >
-        <div className="user_name">XXX</div>
-        <div className='user_identty'>Admin</div>
+        <div className="user_name">{userInfo.userName}</div>
+        <div className='user_identty'>{userInfo.userAuth}</div>
         <div className="logout_btn" onClick={logOut}>登出</div>
       </div>
     </div >

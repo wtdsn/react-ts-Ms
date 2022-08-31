@@ -2,11 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 
 /* 导入 reducer */
 import countSliceReducer from "./slices/count";
+import userSliceReducer from './slices/user'
 
 /* 定义 store */
 export const store = configureStore({
   reducer: {
-    counter: countSliceReducer
+    counter: countSliceReducer,
+    user: userSliceReducer
   }
 })
 

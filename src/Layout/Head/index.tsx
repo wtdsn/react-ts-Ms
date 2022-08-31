@@ -2,6 +2,7 @@ import { FC, createElement } from 'react'
 import { Layout } from 'antd'
 import Logout from './Logout/Logout'
 import Breadcrumb from './Breadcrumb/index'
+import FullScreen from '@/components/FullScreen'
 
 import {
   MenuFoldOutlined,
@@ -29,6 +30,7 @@ const Head: FC<HeadInter> = (props) => {
     </div>
 
     <div className='right_tools'>
+      <FullScreen />
       <Logout />
     </div>
   </Header>)
