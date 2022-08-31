@@ -38,7 +38,7 @@ function Breadcrumb() {
 
     /* 获取并设置动画的下标范围 */
     for (let i = 0; i < newList.length; i++) {
-      if (newList[i].name !== breakList[i].name) {
+      if (newList[i]?.name !== breakList[i]?.name) {
         setMoveRange(i - 1)
         break
       }
