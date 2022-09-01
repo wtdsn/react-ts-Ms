@@ -1,7 +1,6 @@
 import Cookies from "js-cookie"
 
 /* 模拟请求 */
-
 export function login(params: any) {
   const { username, veriCode, code } = params
 

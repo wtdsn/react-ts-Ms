@@ -1,4 +1,5 @@
 import { lazy } from 'react'
+import { PieChartFilled, HddFilled, ProfileFilled, PayCircleFilled, SkinFilled, TagsFilled, WalletFilled } from '@ant-design/icons'
 
 import Layout from '@/Layout/index'
 
@@ -7,7 +8,7 @@ import { routeInter } from './routeInters'
 
 /*
 path: string,
-icon?: string | JSX.Element,
+icon?:  JSX.Element,
 redirect?:string   you can use index instead , (the child's path is the same with the father's when using index)
 index?: boolean,   when father element has many children .index is the default one
 element: FC<any>,
@@ -29,6 +30,7 @@ const constRoutes: routeInter[] = [
     children: [
       {
         path: 'test',
+        icon: <PieChartFilled />,
         element: lazy(() => import('@/view/test/index')),
         meta: {
           title: 'test',
@@ -40,12 +42,14 @@ const constRoutes: routeInter[] = [
     path: '/users',
     element: Layout,
     redirect: '/users/user',
+    icon: <HddFilled />,
     meta: {
       title: 'users'
     },
     children: [
       {
         path: 'user',
+        icon: <ProfileFilled />,
         meta: {
           title: 'user'
         },
@@ -80,6 +84,7 @@ const asyncRoutes: routeInter[] = [
     children: [
       {
         path: '/async1',
+        icon: <PayCircleFilled />,
         meta: {
           title: 'async1',
           auth: ['admin']
@@ -91,6 +96,7 @@ const asyncRoutes: routeInter[] = [
     path: '/asynList',
     element: Layout,
     redirect: '/asynList/async2',
+    icon: <SkinFilled />,
     meta: {
       title: 'asyncList',
       auth: ['editor', 'admin']
@@ -98,6 +104,7 @@ const asyncRoutes: routeInter[] = [
     children: [
       {
         path: 'async2',
+        icon: <TagsFilled />,
         meta: {
           title: 'async2',
           auth: ['admin']
@@ -105,6 +112,7 @@ const asyncRoutes: routeInter[] = [
         element: lazy(() => import('@/view/AsyncP2/index'))
       }, {
         path: 'async3',
+        icon: <WalletFilled />,
         meta: {
           title: 'async3',
           auth: ['editor', 'admin']

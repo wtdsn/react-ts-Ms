@@ -11,10 +11,7 @@ import Cookies from 'js-cookie'
 import VeriCode from '@/components/VeriCode/veriCode';
 
 import { useAppDispatch } from '@/Store/hook';
-import { setUserInfo } from '@/Store/slices/user';
-
-// 请求 API
-import { login } from '@/Api/user'
+import { loginThunk } from '@/Store/slices/user';
 
 
 import './index.less'
@@ -36,9 +33,7 @@ const LoginForm: React.FC<LFInter> = (props) => {
     setLoading(true)
     let { username, password, veriCode } = values
 
-    const res: any = await login({
-      username, password, veriCode, code
-    })
+    const res: any = await dispatch(loginThunk({ username, password, veriCode, code })).unwrap()
 
     setLoading(false)
 
@@ -51,21 +46,16 @@ const LoginForm: React.FC<LFInter> = (props) => {
     } else {
       message.success(res.msg)
 
-      /* if you do not use redux or cookie, you can do like this */
-      // localStorage.setItem('auth', 'admin')
-      let userInfo = res.data
+      let data = res.data
       /* 将 auth 放入 cookie , 解决 redux 刷新丢失问题  */
-      Cookies.set('auth', userInfo.userAuth)
+      Cookies.set('auth', data.userAuth)
 
       /* 如果使用 token ,将 token 存入 cookie , 如果仅使用 cookie ,则游览器会自动保存 cookie */
-      // Cookies.set('token', userInfo.userAuth)
+      Cookies.set('token', data.token)
 
-      /* 使用 redux 存储用户信息，假如用户需要保存的信息有很多，比如头像 ，部门，等等 */
-      dispatch(setUserInfo(userInfo))
       navi('/')
     }
   };
-
 
 
   /* 验证码 */

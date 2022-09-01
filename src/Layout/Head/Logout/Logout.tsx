@@ -62,8 +62,8 @@ const Logout: FC = () => {
     <div onClick={stopPropagation} className={`logout_box ${dropDown ? 'logout' : ''}`} >
       <img onClick={toggleDrop} src={avatar} className="avatar" alt='avatar' />
       <div className='drop_box' >
-        <div className="user_name">{userInfo.userName}</div>
-        <div className='user_identty'>{userInfo.userAuth}</div>
+        <div className="user_name">{userInfo.userName || 'loading'}</div>
+        <div className='user_identty'>{userInfo.userAuth || 'loading'}</div>
         <div className="logout_btn" onClick={logOut}>登出</div>
       </div>
     </div >

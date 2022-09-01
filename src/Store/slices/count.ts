@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import type { RootState } from "../index";
 
 /* state 的接口类型定义 */
@@ -10,6 +10,41 @@ interface countInter {
 const initialState: countInter = {
   value: 0
 }
+
+/* 创建 thunk 并导出 */
+/* thunk 有4种状态 
+请求尚未开始
+请求正在进行中
+请求成功，我们现在有了我们需要的数据
+请求失败，可能有错误信息
+
+在 reducer 中 ，在被触发（dispatch）后 ，会有 3种情况
+即进行中 ， 成功 和 失败
+在 addCase 就是分别以
+asyncAdd.pending
+async.fulfilled
+async.rejected  
+三种 reducer 。 
+
+如果 dispatch 报错。可尝试降低 redux 版本到 7 
+*/
+export const asyncAdd = createAsyncThunk(
+  "count/asyncAdd",
+  async (amount: number) => {
+    console.log("amount", amount);
+
+    const res = await (new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(amount)
+      }, 1000)
+    }))
+
+    return {
+      code: 1,
+      data: res
+    }
+  }
+)
 
 /* 创建 */
 export const countSlice = createSlice({
@@ -29,8 +64,22 @@ export const countSlice = createSlice({
     incrementByAmount: (state, action: PayloadAction<number>) => {
       state.value += action.payload
     }
+  },
+  /* 添加  extraReducers 处理异步的 action */
+  /* 通过 addCase 触发不同的 reducer . 相当于 switch case */
+  extraReducers(builder) {
+    builder.addCase(asyncAdd.pending, (state, action) => {
+      console.log("执行中");
+
+    }).addCase(asyncAdd.fulfilled, (state, action) => {
+      console.log("执行成功！");
+
+      console.log(action);
+    })
   }
 })
+
+
 
 /* 导出 reducer 对应的 acrions */
 export const { increment, decrement, incrementByAmount } = countSlice.actions

@@ -4,19 +4,15 @@ import { constRoutes, asyncRoutes } from '@/Router/routes'
 import { useEffect, createContext, useState } from "react"
 
 /* 获取用户 auth */
-import { useAppSelector } from "@/Store/hook"
-import { selectUserAuth } from "@/Store/slices/user"
+import { useAppSelector, useAppDispatch } from "@/Store/hook"
+import { selectUserAuth, getUserInfoBytokenThunk } from "@/Store/slices/user"
 
 
 import Cookies from 'js-cookie'
 
-/* 请求 API */
-import { getUserInfoBytoken } from '@/Api/user'
 
 /* 路由组件 */
 export const Groutes = createContext(constRoutes)
-
-
 
 const Router = () => {
   const loaction = useLocation()
@@ -28,24 +24,16 @@ const Router = () => {
   /* 渲染前，判断是否有权限 */
   /* 通过权限更新路由等 */
   const auth = useAppSelector(selectUserAuth)
-
-  /* 抽离到 redux 包括 login 的部分逻辑 */
-  async function getUserInfo() {
-    const res = await getUserInfoBytoken()
-    console.log("res", res);
-  }
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    // if you do not use redux or cookie ,you can do like this
-    // let auth = localStorage.getItem('auth')
-
     let _auth = auth
 
     if (!_auth) {
       _auth = Cookies.get('auth') || ''
       if (_auth) {
         /* redux 中用户的信息被刷新清空了，可以通过 cookie 或 token 重新获取 */
-        getUserInfo()
+        dispatch(getUserInfoBytokenThunk())
       }
     }
 
@@ -59,6 +47,7 @@ const Router = () => {
       if (loaction.pathname !== '/login') {
         navi("/login")
       }
+
     } else {
       if (_auth) {
         /* 有权限 */

@@ -67,7 +67,8 @@ function generateMenu(routes: routeInter[], fatherPath = ''): menuItemInter[] {
       if (v.children) {
         menuItems.push({
           key: join(fatherPath, v.path, v.children[0].path),
-          label: v.children[0].meta.title
+          label: v.children[0].meta.title,
+          icon: v.children[0].icon
         })
       }
     } else {
@@ -76,13 +77,15 @@ function generateMenu(routes: routeInter[], fatherPath = ''): menuItemInter[] {
         menuItems.push({
           key: join(fatherPath, v.path),
           label: v.meta.title,
+          icon: v.icon,
           children: generateMenu(v.children, join(fatherPath, v.path))
         })
       } else {
         /* 非隐藏无孩子 */
         menuItems.push({
           key: join(fatherPath, v.path),
-          label: v.meta.title
+          label: v.meta.title,
+          icon: v.icon,
         })
       }
     }
