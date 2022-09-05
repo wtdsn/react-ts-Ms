@@ -1,5 +1,5 @@
 import { lazy } from 'react'
-import { PieChartFilled, HddFilled, ProfileFilled, PayCircleFilled, SkinFilled, TagsFilled, WalletFilled } from '@ant-design/icons'
+import { PieChartFilled, HddFilled, HighlightFilled, ProfileFilled, PayCircleFilled, SkinFilled, TagsFilled, WalletFilled } from '@ant-design/icons'
 
 import Layout from '@/Layout/index'
 
@@ -30,11 +30,36 @@ const constRoutes: routeInter[] = [
     children: [
       {
         path: 'test',
-        icon: <PieChartFilled />,
+        icon: <HighlightFilled />,
         element: lazy(() => import('@/view/test/index')),
         meta: {
           title: 'test',
         }
+      }
+    ]
+  }, {
+    path: '/echarts',
+    element: Layout,
+    icon: <PieChartFilled />,
+    meta: {
+      title: 'echarts'
+    },
+    redirect: '/echarts/normal',
+    children: [
+      {
+        path: 'normal',
+        icon: <PieChartFilled />,
+        meta: {
+          title: 'normal'
+        },
+        element: lazy(() => import('@/view/Echarts/index'))
+      }, {
+        path: 'chinaChart',
+        icon: <PieChartFilled />,
+        meta: {
+          title: 'chinaEchart'
+        },
+        element: lazy(() => import('@/view/Echarts/ChinaChart/index'))
       }
     ]
   },
