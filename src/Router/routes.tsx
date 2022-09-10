@@ -64,21 +64,21 @@ const constRoutes: routeInter[] = [
     ]
   },
   {
-    path: '/users',
+    path: '/antd',
     element: Layout,
-    redirect: '/users/user',
+    redirect: '/antd/from',
     icon: <HddFilled />,
     meta: {
-      title: 'users'
+      title: 'antd'
     },
     children: [
       {
-        path: 'user',
+        path: 'from',
         icon: <ProfileFilled />,
         meta: {
-          title: 'user'
+          title: 'from'
         },
-        element: lazy(() => import('@/view/user/index'))
+        element: lazy(() => import('@/view/Antd/index'))
       }
     ]
   },

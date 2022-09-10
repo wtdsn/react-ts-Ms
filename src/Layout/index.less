@@ -1,9 +1,34 @@
  .layout_con {
    width: 100vw;
    height: 100vh;
+   overflow: hidden;
+
+   .layout_r_box {
+     transition: all .2s;
+     transition-property: all;
+     transition-duration: 0.2s;
+     transition-timing-function: ease;
+     transition-delay: 0s;
+   }
 
    .layout_main {
+     overflow: auto;
      padding: 16px;
      background-color: #fff;
+
+     &::-webkit-scrollbar {
+       width: 10px;
+       background-color: #ccc;
+       border-radius: 4px;
+     }
+
+     &::-webkit-scrollbar-thumb {
+       background-color: rgb(151, 192, 234);
+       border-radius: 4px;
+
+       &:hover {
+         background-color: rgb(101, 165, 229);
+       }
+     }
    }
  }

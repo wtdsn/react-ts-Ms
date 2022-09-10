@@ -14,7 +14,7 @@ function Test() {
     console.log("@@@,", disr);
   }
 
-  return (<div>Test Page
+  return (<div style={{ height: '200%' }}>Test Page
     :{count}
     <div></div>
     <button onClick={() => dispatch(increment())}>+</button>

@@ -43,4 +43,125 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+To learn React, check out the [React documentation](https://reactjs.org/)
+
+```
+react-ts-learn
+├─ .vscode
+│  └─ settings.json
+├─ craco.config.js
+├─ imgallow.d.ts
+├─ package-lock.json
+├─ package.json
+├─ public
+│  ├─ favicon.ico
+│  ├─ index.html
+│  ├─ logo192.png
+│  ├─ logo512.png
+│  ├─ manifest.json
+│  └─ robots.txt
+├─ README.md
+├─ src
+│  ├─ Api
+│  │  ├─ map.ts
+│  │  └─ user.ts
+│  ├─ App.tsx
+│  ├─ assets
+│  │  ├─ img
+│  │  │  ├─ echarts
+│  │  │  │  ├─ back.svg
+│  │  │  │  └─ svg.svg
+│  │  │  └─ head
+│  │  │     ├─ avatar.jpg
+│  │  │     └─ SJKXTGLPDF_V5.0_XiTongZhiJia.zip
+│  │  ├─ JSON
+│  │  │  └─ china.json
+│  │  └─ style
+│  │     └─ common.less
+│  ├─ components
+│  │  ├─ Count
+│  │  │  ├─ Count.less
+│  │  │  └─ index.tsx
+│  │  ├─ Form
+│  │  │  └─ index.tsx
+│  │  ├─ FullScreen
+│  │  │  ├─ index.less
+│  │  │  └─ index.tsx
+│  │  ├─ Suspense
+│  │  │  └─ index.tsx
+│  │  ├─ useCallback
+│  │  │  └─ index.tsx
+│  │  ├─ useMemo
+│  │  │  └─ index.tsx
+│  │  └─ VeriCode
+│  │     └─ veriCode.tsx
+│  ├─ index.tsx
+│  ├─ Layout
+│  │  ├─ Head
+│  │  │  ├─ Breadcrumb
+│  │  │  │  ├─ index.tsx
+│  │  │  │  └─ item.less
+│  │  │  ├─ index.less
+│  │  │  ├─ index.tsx
+│  │  │  └─ Logout
+│  │  │     ├─ logout.less
+│  │  │     └─ Logout.tsx
+│  │  ├─ index.less
+│  │  ├─ index.tsx
+│  │  └─ SideBar
+│  │     ├─ index.less
+│  │     └─ index.tsx
+│  ├─ Router
+│  │  ├─ index.tsx
+│  │  ├─ permission.ts
+│  │  ├─ routeInters.ts
+│  │  └─ routes.tsx
+│  ├─ Store
+│  │  ├─ hook.ts
+│  │  ├─ index.ts
+│  │  └─ slices
+│  │     ├─ count.ts
+│  │     └─ user.ts
+│  ├─ utils
+│  │  ├─ fullscreen.ts
+│  │  ├─ index.ts
+│  │  ├─ join.ts
+│  │  └─ request.ts
+│  └─ view
+│     ├─ Antd
+│     │  └─ index.tsx
+│     ├─ AsyncP1
+│     │  └─ index.tsx
+│     ├─ AsyncP2
+│     │  └─ index.tsx
+│     ├─ AsyncP3
+│     │  └─ index.tsx
+│     ├─ Echarts
+│     │  ├─ ChinaChart
+│     │  │  ├─ area.ts
+│     │  │  ├─ index.less
+│     │  │  └─ index.tsx
+│     │  ├─ index.less
+│     │  └─ index.tsx
+│     ├─ Login
+│     │  ├─ Bg
+│     │  │  ├─ LoginBg.tsx
+│     │  │  └─ LoginBgC.ts
+│     │  ├─ Form
+│     │  │  ├─ index.less
+│     │  │  └─ index.tsx
+│     │  ├─ index.tsx
+│     │  └─ login.less
+│     ├─ NotFound
+│     │  └─ index.tsx
+│     ├─ other
+│     │  ├─ first
+│     │  │  └─ index.tsx
+│     │  └─ sec
+│     └─ test
+│        └─ index.tsx
+├─ test.js
+├─ tsconfig.json
+└─ yarn.lock
+
+```

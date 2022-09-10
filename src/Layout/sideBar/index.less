@@ -1,3 +1,24 @@
+.layout_sider {
+  position: fixed !important;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 99;
+
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    background-color: #ccc;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(103, 155, 205);
+    border-radius: 4px;
+  }
+}
+
 .logo {
   height: 32px;
   margin: 8px 10px;

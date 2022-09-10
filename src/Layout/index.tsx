@@ -33,7 +33,9 @@ const Layout: FC<LayoutInter> = (props) => {
   return (
     <AntdLayout className='layout_con'>
       <SideBar collapsed={collapsed} />
-      <AntdLayout>
+      <AntdLayout className='layout_r_box' style={{
+        marginLeft: collapsed ? '80px' : '200px'
+      }}>
         <Head collapsed={collapsed} setCollapsed={setCollapsed} />
         <Content className='layout_main'>
           <Suspense>

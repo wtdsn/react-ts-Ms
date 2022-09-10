@@ -45,7 +45,12 @@ const SideBar: FC<SideInter> = (prop) => {
     setMenuItems(generateMenu(routes, ''))
   }, [routes, curPath])
 
-  return (<Layout.Sider trigger={null} collapsible collapsed={prop.collapsed}>
+  return (<Layout.Sider
+    className="layout_sider"
+    breakpoint="lg"
+    trigger={null}
+    collapsible
+    collapsed={prop.collapsed}>
     <div className="logo" />
     <Menu
       theme="dark"
