@@ -60,6 +60,14 @@ const constRoutes: routeInter[] = [
           title: 'chinaEchart'
         },
         element: lazy(() => import('@/view/Echarts/ChinaChart/index'))
+      },
+      {
+        path: 'radar',
+        icon: <PieChartFilled />,
+        meta: {
+          title: 'radarEchart'
+        },
+        element: lazy(() => import('@/view/Echarts/Radar/index'))
       }
     ]
   },

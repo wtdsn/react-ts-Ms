@@ -1,76 +1,78 @@
 import { FC, useState, useEffect, useMemo } from 'react'
 
 import { throttle } from '@/utils/index';
-// import './index.less'
 
 /* echarts */
 import * as echarts from 'echarts/core';
 import {
-  GridComponent,
-  GridComponentOption,
+  TitleComponent,
+  TitleComponentOption,
   LegendComponent,
-  TooltipComponent
+  LegendComponentOption
 } from 'echarts/components';
 import {
-  LineChart,
-  LineSeriesOption
+  RadarChart,
+  RadarSeriesOption
 } from 'echarts/charts';
-import {
-  UniversalTransition
-} from 'echarts/features';
 import {
   CanvasRenderer
 } from 'echarts/renderers';
 
 echarts.use(
-  [GridComponent, TooltipComponent, LegendComponent, LineChart, CanvasRenderer, UniversalTransition]
+  [TitleComponent, LegendComponent, RadarChart, CanvasRenderer]
 );
 
 type EChartsOption = echarts.ComposeOption<
-  GridComponentOption | LineSeriesOption
+  TitleComponentOption | LegendComponentOption | RadarSeriesOption
 >
 
 
 const Echarts: FC = () => {
-  const [xData, setXData] = useState(["2020.1", "2020.2", "2020.3", "2020.4"])
   const [Charts, setC] = useState<echarts.ECharts>()
   const [Con, setCon] = useState<HTMLDivElement>()
 
   const option: EChartsOption = useMemo(() => {
     return {
-      tooltip: {
-        trigger: 'axis'
+      title: {
+        text: 'Basic Radar Chart'
       },
       legend: {
-        top: '0',
-        right: '0',
-        data: ['双喜', '中华', '软中华']
+        bottom: '0',
+        orient: 'vertical',
+        data: ['月均消费次数', '消费水平']
       },
-      xAxis: {
-        type: 'category',
-        boundaryGap: false,
-        data: xData
-      },
-      yAxis: {
-        type: 'value'
+      radar: {
+        // shape: 'circle',
+        indicator: [
+          { name: 'A', },
+          { name: 'B', },
+          { name: 'C', },
+          { name: 'D', },
+          { name: 'E', }
+        ]
       },
       series: [
         {
-          name: '双喜',
-          data: [100, 200, 300, 100],
-          type: 'line'
-        }, {
-          name: '中华',
-          data: [200, 100, 30, 200],
-          type: 'line'
-        }, {
-          name: '软中华',
-          data: [120, 20, 100, 50],
-          type: 'line'
+          type: 'radar',
+          data: [
+            {
+              value: [4200, 3000, 15000, 40000, 18000],
+              name: '月均消费次数'
+            }
+          ]
+        },
+        {
+          type: 'radar',
+          data: [
+            {
+              value: [4000, 2000, 25000, 22000, 11000],
+              name: '消费水平'
+            }
+          ]
         }
       ]
-    }
-  }, [xData])
+    };
+  }, [])
 
   useEffect(() => {
     if (!Con) {

@@ -55,6 +55,7 @@ const Router = () => {
           navi('/')
         } else if (addRoutes.length === 0) {
           let routes = generateRoutes(_auth)
+          console.log("@", routes);
           setRoutes(routes)
           setAddRoutes(routes)
         }
