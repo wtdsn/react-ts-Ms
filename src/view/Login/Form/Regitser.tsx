@@ -15,7 +15,7 @@ const Register: React.FC<RFInter> = (props) => {
   return (
     <Form
       name="registe_form"
-      className="login-form"
+      className="login_form"
       initialValues={{ remember: true }}
       onFinish={onFinish}
     >

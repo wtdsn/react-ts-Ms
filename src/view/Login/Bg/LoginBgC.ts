@@ -37,7 +37,7 @@ class DotsBg {
 
     window.requestAnimationFrame(this.Drwa.bind(this))
 
-    this.Con.addEventListener('mousemove', this.mouseFollow)
+    window.addEventListener('mousemove', this.mouseFollow)
   }
 
   /* 根据两个点的 r b g 取平均值 */
@@ -124,16 +124,18 @@ class DotsBg {
   }
 
   mouseFollow = new throttle().use((e: MouseEvent) => {
+    console.log(e);
+
     let {
-      offsetX,
-      offsetY
+      screenX,
+      screenY
     } = e
 
-    this.offset.x = Math.floor(offsetX - this.preP.x)
-    this.offset.y = Math.floor(offsetY - this.preP.y)
+    this.offset.x = Math.floor(screenX - this.preP.x)
+    this.offset.y = Math.floor(screenY - this.preP.y)
 
-    this.preP.x = offsetX
-    this.preP.y = offsetY
+    this.preP.x = screenX
+    this.preP.y = screenY
   }, 20)
 
   resize = new throttle().use(() => {
@@ -161,7 +163,7 @@ class DotsBg {
 
   destroy() {
     window.removeEventListener("resize", this.resize)
-    this.Con.removeEventListener('mousemove', this.mouseFollow)
+    window.removeEventListener('mousemove', this.mouseFollow)
     this.stopDraw = true
   }
 }
