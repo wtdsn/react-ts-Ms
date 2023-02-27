@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError, AxiosPromise } from "axios";
 
 const instance = axios.create({
-  url: '',
+  url: '/api',
   timeout: 5000
 })
 

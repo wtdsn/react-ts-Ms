@@ -124,7 +124,7 @@ class DotsBg {
   }
 
   mouseFollow = new throttle().use((e: MouseEvent) => {
-    console.log(e);
+    // console.log(e);
 
     let {
       screenX,
