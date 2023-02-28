@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError, AxiosPromise } from "axios";
 
 const instance = axios.create({
-  url: '/api',
+  baseURL: '/api',
   timeout: 5000
 })
 
@@ -9,6 +9,9 @@ const instance = axios.create({
 instance.interceptors.request.use((config: AxiosRequestConfig) => {
   // you can add token here
   // config.headers.token = token
+  /*   alert("@")
+    console.log(config); */
+  console.log(config);
 
   return config
 }, (err) => {
@@ -29,6 +32,7 @@ instance.interceptors.response.use((res: AxiosResponse<responseType>): responseT
   // if (res.data.code !== 1) {
   //   console.error(res.data.msg)
   // }
+  console.log(res);
 
   return res.data
 }, (err: AxiosError) => {

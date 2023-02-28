@@ -1,11 +1,14 @@
 import Cookies from "js-cookie"
 // import request, { axiosPromise } from '@/utils/request'
-/* export function login(params: any): axiosPromise<any> {
+/* export function login(params: any) {
   return request({
-    url: "/api"
+    // baseURL: "/api",
+    url: "/login",
+    method: "GET"
   })
-}
- */
+  // return fetch('/api/login')
+} */
+
 /* 模拟请求 */
 export function login(params: any) {
   const { username, veriCode, code } = params

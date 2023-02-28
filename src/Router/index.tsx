@@ -7,8 +7,7 @@ import { useEffect, createContext, useState } from "react"
 import { useAppSelector, useAppDispatch } from "@/Store/hook"
 import { selectUserAuth, getUserInfoBytokenThunk } from "@/Store/slices/user"
 
-
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 
 
 /* 路由组件 */
@@ -26,49 +25,67 @@ const Router = () => {
   const auth = useAppSelector(selectUserAuth)
   const dispatch = useAppDispatch()
 
+
+
   useEffect(() => {
-    let _auth = auth
+    (async function () {
+      let _auth = auth
 
-    if (!_auth) {
-      _auth = Cookies.get('auth') || ''
-      if (_auth) {
+      if (!_auth) {
+        // TODO 通过 cookie 和 token 获取用户信息
+        // _auth = Cookies.get('auth') || ''
+        // if (_auth) {
         /* redux 中用户的信息被刷新清空了，可以通过 cookie 或 token 重新获取 */
-        dispatch(getUserInfoBytokenThunk())
+        console.log("GET_1");
+
+        // dispatch(getUserInfoBytokenThunk())
+        // a()
+        await new Promise(a => {
+          setTimeout(() => {
+            console.log("@");
+            _auth = '123'
+            a(123)
+          }, 3000)
+        })
+        console.log("GET_2");
+        // }
       }
-    }
 
-    /* 如果没有权限 */
-    if (!_auth) {
-      /* 清除路由记录 */
-      setRoutes([...constRoutes])
-      setAddRoutes([])
+      /* 如果没有权限 */
+      if (!_auth) {
+        /* 清除路由记录 */
+        setRoutes([...constRoutes])
+        setAddRoutes([])
 
-      /* 跳转到登录 */
-      if (loaction.pathname !== '/login') {
-        navi("/login")
-      }
+        /* 跳转到登录 */
+        if (loaction.pathname !== '/login') {
+          navi("/login")
+        }
 
-    } else {
-      if (_auth) {
-        /* 有权限 */
-        if (loaction.pathname === '/login') {
-          navi('/')
-        } else if (addRoutes.length === 0) {
-          let routes = generateRoutes(_auth)
-          console.log("@", routes);
-          setRoutes(routes)
-          setAddRoutes(routes)
+      } else {
+        if (_auth) {
+          /* 有权限 */
+          if (loaction.pathname === '/login') {
+            navi('/')
+          } else if (addRoutes.length === 0) {
+            let routes = generateRoutes(_auth)
+            console.log("@", routes);
+            setRoutes(routes)
+            setAddRoutes(routes)
+          }
         }
       }
-    }
+    })()
+
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loaction.pathname])
 
   return (
     <Groutes.Provider value={routes} >
-      <Routes>
+      {routes?.length ? <Routes>
         {routes.map(mapRoutes)}
-      </Routes>
+      </Routes> : 123}
     </Groutes.Provider>
   )
 }

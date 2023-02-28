@@ -56,6 +56,8 @@ export const getUserInfoBytokenThunk = createAsyncThunk(
   'user/getUserInfo',
   async () => {
     const res = await getUserInfoBytoken()
+    console.log("GETRES", res);
+
     return res
   }
 )
