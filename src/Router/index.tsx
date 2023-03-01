@@ -3,12 +3,12 @@ import { routeInter } from './routeInters'
 import { constRoutes, asyncRoutes } from '@/Router/routes'
 import { useEffect, createContext, useState } from "react"
 
-/* 获取用户 auth */
+/* 获取用户信息 */
 import { useAppSelector, useAppDispatch } from "@/Store/hook"
 import { selectUserAuth, getUserInfoBytokenThunk } from "@/Store/slices/user"
 
-// import Cookies from 'js-cookie'
-
+import { Spin } from 'antd'
+import Cookies from "js-cookie"
 
 /* 路由组件 */
 export const Groutes = createContext(constRoutes)
@@ -25,55 +25,41 @@ const Router = () => {
   const auth = useAppSelector(selectUserAuth)
   const dispatch = useAppDispatch()
 
-
-
   useEffect(() => {
+    // 同步执行异步任务
     (async function () {
       let _auth = auth
 
+      // 如果没有权限，尝试获取权限
       if (!_auth) {
-        // TODO 通过 cookie 和 token 获取用户信息
-        // _auth = Cookies.get('auth') || ''
-        // if (_auth) {
-        /* redux 中用户的信息被刷新清空了，可以通过 cookie 或 token 重新获取 */
-        console.log("GET_1");
-
-        // dispatch(getUserInfoBytokenThunk())
-        // a()
-        await new Promise(a => {
-          setTimeout(() => {
-            console.log("@");
-            _auth = '123'
-            a(123)
-          }, 3000)
-        })
-        console.log("GET_2");
-        // }
+        let token = Cookies.get("token")
+        if (token) {
+          const res: any = await dispatch(getUserInfoBytokenThunk()).unwrap()
+          _auth = res.code === 1 ? res?.data?.userAuth : undefined
+        }
+        // 清除添加记录
+        setAddRoutes([])
+        setRoutes([...constRoutes])
       }
 
-      /* 如果没有权限 */
-      if (!_auth) {
-        /* 清除路由记录 */
-        setRoutes([...constRoutes])
-        setAddRoutes([])
-
-        /* 跳转到登录 */
-        if (loaction.pathname !== '/login') {
-          navi("/login")
+      /* 原本有权限，或者获取后有权限 */
+      if (_auth) {
+        // 如果需要生成路由
+        if (addRoutes.length === 0) {
+          let routes = generateRoutes(_auth)
+          setRoutes(routes)
+          setAddRoutes(routes)
         }
-
-      } else {
-        if (_auth) {
-          /* 有权限 */
-          if (loaction.pathname === '/login') {
-            navi('/')
-          } else if (addRoutes.length === 0) {
-            let routes = generateRoutes(_auth)
-            console.log("@", routes);
-            setRoutes(routes)
-            setAddRoutes(routes)
-          }
+        // 如果在 login
+        if (loaction.pathname === '/login') {
+          navi('/')
         }
+        return
+      }
+
+      /* 始终没有权限 ， 跳转到登录 */
+      if (loaction.pathname !== '/login') {
+        navi("/login")
       }
     })()
 
@@ -85,9 +71,16 @@ const Router = () => {
     <Groutes.Provider value={routes} >
       {routes?.length ? <Routes>
         {routes.map(mapRoutes)}
-      </Routes> : 123}
+      </Routes> :
+        <Spin style={{
+          width: '100%',
+          marginTop: '30vh'
+        }}></Spin>
+      }
     </Groutes.Provider>
   )
+
+
 }
 
 /* map 函数回调 ，根据 路由 生成 route 组件 */
