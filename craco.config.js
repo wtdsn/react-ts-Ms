@@ -1,5 +1,6 @@
 const CracoLessPlugin = require("craco-less");
 const cracoPluginStyleResourcesLoader = require('craco-plugin-style-resources-loader');
+const TerserPlugin = require('terser-webpack-plugin')
 const {
   resolve
 } = require("path")
@@ -17,6 +18,23 @@ module.exports = {
   webpack: {
     alias: {
       "@": resolve(__dirname, "src")
+    },
+    configure: (webpackConfig, { env, paths }) => {
+      webpackConfig.optimization = {
+        minimize: true,
+        minimizer: [
+          new TerserPlugin({
+            terserOptions: {
+              format: {
+                comments: false,
+              },
+            },
+            extractComments: false,
+          })],
+      }
+
+      webpackConfig.devtool = false
+      return webpackConfig
     }
   },
   devServer: {
