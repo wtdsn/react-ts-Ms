@@ -9,10 +9,6 @@ const instance = axios.create({
 instance.interceptors.request.use((config: AxiosRequestConfig) => {
   // you can add token here
   // config.headers.token = token
-  /*   alert("@")
-    console.log(config); */
-  console.log(config);
-
   return config
 }, (err) => {
   console.log("请求拦截异常！");

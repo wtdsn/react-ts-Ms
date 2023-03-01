@@ -52,5 +52,6 @@
   },
   "devDependencies": {
     "craco-plugin-style-resources-loader": "^0.0.3"
-  }
+  },
+  "homepage": "./"
 }
