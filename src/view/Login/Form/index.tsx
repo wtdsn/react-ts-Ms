@@ -47,8 +47,6 @@ const LoginForm: React.FC<LFInter> = (props) => {
       message.success(res.msg)
 
       let data = res.data
-      /* 将 auth 放入 cookie , 解决 redux 刷新丢失问题  */
-      Cookies.set('auth', data.userAuth)
 
       /* 如果使用 token ,将 token 存入 cookie , 如果仅使用 cookie ,则游览器会自动保存 cookie */
       Cookies.set('token', data.token)

@@ -24,6 +24,8 @@ const Logout: FC = () => {
   const handleClickOuter = useCallback(() => {
     setDrop(false)
   }, [])
+
+
   /* 事件监听器的添加和移除 ，监听点击外界 */
   useEffect(() => {
     if (dropDown) {
@@ -35,6 +37,7 @@ const Logout: FC = () => {
       document.body.removeEventListener('click', handleClickOuter)
     }
   }, [dropDown, handleClickOuter])
+
   /* 阻止冒泡 */
   const stopPropagation = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation()
@@ -49,7 +52,6 @@ const Logout: FC = () => {
   const navi = useNavigate()
   const logOut = () => {
     dispatch(clearUserInfo())
-    Cookies.remove("auth")
 
     /* remove token if has */
     Cookies.remove("token")

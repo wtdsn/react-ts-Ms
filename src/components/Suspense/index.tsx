@@ -8,7 +8,7 @@ const Suspense: FC<SusInter> = (props) => {
   return (
     <ReactSus fallback={<Spin style={{
       width: '100%',
-      marginTop: '40%'
+      marginTop: '30vh'
     }}></Spin>}>
       {props.children}
     </ReactSus>

@@ -63,12 +63,17 @@ export function login(params: any) {
 export function getUserInfoBytoken() {
   /* 使用全局请求拦截带上 token , 通过 token 获取信息 */
   let token = Cookies.get("token")
+
   let res = {
     code: 1,
     msg: '',
     data: {}
   }
-  if (token === '1111') {
+
+  if (!token) {
+    res.code = 1
+    res.msg = "未登录"
+  } else if (token === '1111') {
     res.code = 1
     res.msg = "获取成功！"
     res.data = {
