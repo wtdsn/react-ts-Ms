@@ -1,6 +1,7 @@
 const CracoLessPlugin = require("craco-less");
 const cracoPluginStyleResourcesLoader = require('craco-plugin-style-resources-loader');
 const TerserPlugin = require('terser-webpack-plugin')
+
 const {
   resolve
 } = require("path")
@@ -24,11 +25,22 @@ module.exports = {
         minimize: true,
         minimizer: [
           new TerserPlugin({
+            exclude: /node_modules/,
+            parallel: true,
             terserOptions: {
+              //去除注释
               format: {
                 comments: false,
               },
+              // 清除 log,waring,debugger
+              compress: {
+                warnings: false,
+                drop_console: true,
+                drop_debugger: true,
+                pure_funcs: ["console.log"]
+              }
             },
+            // 去除注释
             extractComments: false,
           })],
       }
